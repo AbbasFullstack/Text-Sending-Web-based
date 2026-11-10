@@ -1,0 +1,14 @@
+{
+  "name": "text-sending-web",
+  "version": "1.0.0",
+  "description": "Simple text messaging website for transferring text between devices",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build required for static site'",
+    "start": "vercel dev"
+  },
+  "keywords": ["text", "sender", "transfer", "mobile"],
+  "author": "AbbasFullstack",
+  "license": "MIT"
+}

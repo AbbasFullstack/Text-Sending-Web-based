@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Sender - Easy Text Transfer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Text Sender</h1>
+        <p class="subtitle">Send text from one device, receive on another</p>
+        
+        <div class="text-container">
+            <textarea id="textInput" placeholder="Type or paste your text here..." rows="10"></textarea>
+            <button id="sendBtn" class="btn">Send Text</button>
+            <button id="copyBtn" class="btn btn-secondary">Copy Text</button>
+            <button id="clearBtn" class="btn btn-danger">Clear</button>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="share-section" id="shareSection" style="display: none;">
+            <p>Share this link with the other device:</p>
+            <input type="text" id="shareLink" readonly class="link-input">
+            <button id="copyLinkBtn" class="btn">Copy Link</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ol>
+                <li>Type or paste your text above</li>
+                <li>Click "Send Text"</li>
+                <li>Copy the generated link</li>
+                <li>Open the link on the other device</li>
+                <li>Copy the text from there</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
