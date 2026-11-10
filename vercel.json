@@ -12,9 +12,29 @@
     {
       "src": "script.js",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/get-text.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/set-text.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/clear-text.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/",
+      "dest": "index.html"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "api/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "index.html"
