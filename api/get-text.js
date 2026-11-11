@@ -1,45 +1,45 @@
-// API endpoint to retrieve the stored text
-// Returns the text if it's less than 30 minutes old
+// API endpoint to retrieve the stored text.
+// Returns the text if it's less than 30 minutes old.
+
+import {
+  KEY,
+  TTL_SECONDS,
+  upstashConfigured,
+  notConfiguredResponse,
+  redisCommand,
+} from './_upstash.js';
 
 export default async function handler(req, res) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  if (!upstashConfigured()) {
+    return notConfiguredResponse(res);
+  }
+
   try {
-    const fs = require('fs');
-    const path = require('path');
-    
-    const dataPath = path.join(process.cwd(), 'data', 'text.json');
-    
-    // Check if file exists
-    if (!fs.existsSync(dataPath)) {
+    const raw = await redisCommand(`/get/${KEY}`);
+
+    if (raw == null) {
       return res.status(200).json({ text: '', exists: false });
     }
-    
-    // Read the file
-    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-    
-    // Check if text is still valid (within 30 minutes)
-    const now = Date.now();
-    const thirtyMinutes = 30 * 60 * 1000; // 30 minutes in milliseconds
-    
-    if (data && data.timestamp && now - data.timestamp < thirtyMinutes) {
-      return res.status(200).json({ 
-        text: data.text || '', 
-        timestamp: data.timestamp,
-        expiresIn: Math.floor((thirtyMinutes - (now - data.timestamp)) / 1000)
-      });
-    } else {
-      // Text has expired, clear it
-      fs.writeFileSync(dataPath, JSON.stringify({ text: '', timestamp: 0 }));
+
+    const data = JSON.parse(raw);
+    const ageSeconds = Math.floor((Date.now() - data.timestamp) / 1000);
+    const expiresIn = TTL_SECONDS - ageSeconds;
+
+    if (expiresIn <= 0) {
       return res.status(200).json({ text: '', exists: false });
     }
+
+    return res.status(200).json({
+      text: data.text || '',
+      timestamp: data.timestamp,
+      expiresIn,
+    });
   } catch (error) {
     console.error('Error retrieving text:', error);
     return res.status(500).json({ error: 'Failed to retrieve text' });
   }
 }
-
-// For Vercel Serverless Functions v2
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};

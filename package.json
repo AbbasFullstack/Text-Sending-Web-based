@@ -2,16 +2,10 @@
   "name": "text-sending-web",
   "version": "1.0.0",
   "description": "Simple text messaging website for transferring text between devices with 30-minute storage",
-  "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'Static site - no build required'",
-    "start": "vercel dev"
+    "dev": "vercel dev"
   },
-  "dependencies": {
-    "@vercel/node": "^3.0.0"
-  },
-  "keywords": ["text", "sender", "transfer", "mobile", "vercel"],
+  "keywords": ["text", "sender", "transfer", "mobile", "vercel", "upstash"],
   "author": "AbbasFullstack",
   "license": "MIT"
 }
